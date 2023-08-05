@@ -1,3 +1,17 @@
+let computerScore = 0;
+let playerScore = 0;
+let gameNumber = 0;
+
+const results = document.createElement('div');
+results.classList.add = 'results';
+const output = document.querySelector('.output')
+// output.appendChild(results)
+
+const playerChoice = document.querySelector('.playerChoice');
+const computerChoice = document.querySelector('.computerChoice');
+
+
+
 function getComputerChoice() {
   let computerSelection;
   const number = Math.random()
@@ -11,35 +25,34 @@ function getComputerChoice() {
   return computerSelection;
 }
 
-function getPlayerChoice() {
-  let playerSelection;
-  playerSelection = (prompt("What are you choosing?")).toLowerCase();
-  return playerSelection;
-}
 
-function playGame() {
-  let computerScore = 0;
-  let playerScore = 0;
-  let gameNumber = 0;
+function playGame(playerSelection) {
+  console.log(gameNumber)
+  if (gameNumber === 5) {
+    if (computerScore > playerScore) {
+      output.textContent = ("the robots have won")
+      return;
+    } else if (playerScore > computerScore) {
+      output.textContent = ("time to head to the genius bar")
+      return;
+    }
+  }
 
-
-  while (gameNumber <= 5) {
     let computerSelection = getComputerChoice();
-    let playerSelection = getPlayerChoice();
-    console.log(`You chose ${playerSelection}`);
-    console.log(`Computer chose ${computerSelection}`);
+    playerChoice.textContent = (`You chose ${playerSelection}`);
+    computerChoice.textContent = (`Computer chose ${computerSelection}`);
     if (computerSelection === "rock") {
       if (playerSelection === "rock") {
         gameNumber++;
-        alert(`Your score: ${playerScore}\nComputer score: ${computerScore}\nTie`);
+        output.textContent = (`Your score: ${playerScore}\nComputer score: ${computerScore}\nTie`);
       } else if (playerSelection === "scissors") {
         computerScore ++;
         gameNumber++;
-        alert(`Your score: ${playerScore}\nComputer score: ${computerScore}\nYou lose`);
+        output.textContent = (`Your score: ${playerScore}\nComputer score: ${computerScore}\nYou lose`);
       } else if (playerSelection === "paper") {
         playerScore++;
         gameNumber++;
-        alert(`Your score: ${playerScore}\nComputer score: ${computerScore}\nYou win`);
+        output.textContent = (`Your score: ${playerScore}\nComputer score: ${computerScore}\nYou win`);
       }
     }
 
@@ -47,14 +60,14 @@ function playGame() {
       if (playerSelection === "rock") {
         computerScore++;
         gameNumber++;
-        alert(`Your score: ${playerScore}\nComputer score: ${computerScore}\nYou lose`);
+        output.textContent = (`Your score: ${playerScore}\nComputer score: ${computerScore}\nYou lose`);
       } else if (playerSelection === "scissors") {
         playerScore++;
         gameNumber++;
-        alert(`Your score: ${playerScore}\nComputer score: ${computerScore}\nYou win`);
+        output.textContent = (`Your score: ${playerScore}\nComputer score: ${computerScore}\nYou win`);
       } else if (playerSelection === "paper") {
         gameNumber++;
-        alert(`Your score: ${playerScore}\nComputer score: ${computerScore}\nTie`);
+        output.textContent = (`Your score: ${playerScore}\nComputer score: ${computerScore}\nTie`);
       }
     }
 
@@ -62,23 +75,34 @@ function playGame() {
       if (playerSelection === "rock") {
         playerScore++;
         gameNumber++;
-        alert(`Your score: ${playerScore}\nComputer score: ${computerScore}\nYou win`);
+        output.textContent = (`Your score: ${playerScore}\nComputer score: ${computerScore}\nYou win`);
       } else if (playerSelection === "scissors") {
         gameNumber++;
-        alert(`Your score: ${playerScore}\nComputer score: ${computerScore}\nTie`);
+        output.textContent = (`Your score: ${playerScore}\nComputer score: ${computerScore}\nTie`);
       } else if (playerSelection === "paper") {
         computerScore++;
         gameNumber++;
-        alert(`Your score: ${playerScore}\nComputer score: ${computerScore}\nYou lose`);
+        output.textContent = (`Your score: ${playerScore}\nComputer score: ${computerScore}\nYou lose`);
       }
     }
-  }
-    if (computerScore > playerScore) {
-      alert("the robots have won")
-    } else if (playerScore > computerScore) {
-      alert("time to head to the genius bar")
-    }
-  }
+   }
 
 
-playGame()
+
+
+const playerSelection = document.querySelectorAll('button');
+playerSelection.forEach((playerSelection) => {
+  playerSelection.addEventListener('click', (e) => {
+    playGame(playerSelection = e.target.className)
+  })
+})
+
+const reset = document.querySelector('.reset');
+reset.addEventListener('click', () => {
+  gameNumber = 0;
+  playerScore = 0;
+  computerScore = 0;
+  output.textContent = "PLAY AGAIN";
+  playerChoice.textContent = "";
+  computerChoice.textContent = "";
+})
